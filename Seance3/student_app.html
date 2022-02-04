@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>Document</title>
+  </head>
+  <body
+    style="
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    "
+  >
+    <h2>Interface Admin</h2>
+    <div>
+      <form onsubmit="addpost(event)">
+        <input type="file" id="image" />
+        <input type="text" id="titre" />
+        <button type="submit">poster</button>
+      </form>
+      <ul
+        id="posts"
+        style="
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+        "
+      ></ul>
+    </div>
+
+    <script>
+      const addpost = (event) => {
+        event.preventDefault();
+        const list = document.getElementById('posts');
+        const titre = document.getElementById('titre');
+        const image =
+          document.getElementById('image').files[0];
+
+        const imageURL = window.URL.createObjectURL(image);
+
+        // Creating post
+        const newPost = document.createElement('li');
+        newPost.style.display = 'flex';
+        newPost.style.justifyContent = 'space-between';
+        newPost.style.alignItems = 'center';
+        newPost.style.borderBottom = '2px solid #ccc';
+
+        // Creating titile
+        const newTitle = document.createElement('p');
+        newTitle.innerHTML = `TITRE : ${titre.value}`;
+
+        // Creating image
+        const newImage = document.createElement('img');
+        newImage.style.width = '100px';
+        newImage.src = imageURL;
+
+        // Creating delete Button
+        const deleteButton =
+          document.createElement('button');
+        deleteButton.innerHTML = 'Supprimer';
+        deleteButton.onclick = () => {
+          newPost.remove();
+        };
+
+        // adding to list of posts
+        newPost.append(deleteButton, newTitle, newImage);
+        list.append(newPost);
+      };
+    </script>
+
+    <!-- EXERCICES CANDIDATS -->
+    <!-- <input type="text" id="name" />
+    <button onclick="add()" >zid</button>
+    <br />
+    <br />
+    Candidats
+    <ul id="list"></ul>
+    <hr />
+    <br />
+    Eleminé
+    <ul id="list_elemine"></ul> -->
+
+    <script defer src="script.js"></script>
+  </body>
+</html>

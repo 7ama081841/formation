@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>Document</title>
+  </head>
+  <body
+    style="
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    "
+  >
+    <h2>List App</h2>
+    <div>
+      <input
+        onkeyup="handleChange(event)"
+        type="text"
+        id="titre"
+      />
+
+      <button onclick="addName(event)" type="submit">
+        ajouter <b><span id="entred"></span></b> a la liste
+      </button>
+      <ul
+        id="posts"
+        style="
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+        "
+      ></ul>
+    </div>
+
+    <script>
+      const handleChange = (event) => {
+        const enter = document.getElementById('entred');
+        enter.innerText = event.target.value.toUpperCase();
+      };
+      const addName = (event) => {
+        event.preventDefault();
+        const list = document.getElementById('posts');
+        const titre = document.getElementById('titre');
+
+        // Creating post
+        const newPost = document.createElement('li');
+        newPost.style.display = 'flex';
+        newPost.style.justifyContent = 'space-between';
+        newPost.style.alignItems = 'center';
+        newPost.style.borderBottom = '2px solid #ccc';
+
+        // Creating titile
+        const newTitle = document.createElement('p');
+        newTitle.innerHTML = `${titre.value}`;
+
+        // adding to list of posts
+        newPost.append(newTitle);
+        list.append(newPost);
+      };
+    </script>
+
+    <!-- EXERCICES CANDIDATS -->
+    <!-- <input type="text" id="name" />
+    <button onclick="add()" >zid</button>
+    <br />
+    <br />
+    Candidats
+    <ul id="list"></ul>
+    <hr />
+    <br />
+    Eleminé
+    <ul id="list_elemine"></ul> -->
+  </body>
+</html>
