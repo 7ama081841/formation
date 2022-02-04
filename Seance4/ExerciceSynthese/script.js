@@ -2,9 +2,11 @@ var add_post = document.getElementById("add_post");
 var message = document.getElementById("message");
 var share = document.getElementById("share");
 var textarea = document.querySelector("textarea");
-let file = document.getElementById("customFile");
+var file = document.getElementById("customFile");
 
-console.log(file);
+var image = null;
+
+file.addEventListener("change", (event) => addImage(event.target.files[0]));
 
 var postss = [
     // {
@@ -46,17 +48,11 @@ var postss = [
 
 var getposts = () => {
     add_post.innerHTML = "";
-    postss.forEach(
-        ({
-            UserPhoto,
-            postedBy,
-            body,
-            photo,
-            video,
-            _id,
-            comments,
-        }) => {
-            add_post.innerHTML += `
+
+    postss.forEach((item) => {
+        const { UserPhoto, postedBy, body, media, _id, comments } = item;
+
+        add_post.innerHTML += `
         <div id="${_id} " class="card gedf-card">
             
             <div class="card-header">
@@ -82,13 +78,13 @@ var getposts = () => {
             ${body}
             </p>
                 ${
-                    photo
-                        ? `<img src='${photo}' style="width: -webkit-fill-available;" height="auto" />`
+                    media?.photo
+                        ? `<img src='${media?.photo}' style="width: -webkit-fill-available;" height="auto" />`
                         : ""
                 }  
                 ${
-                    video
-                        ? `<video src='${video}' style="width: -webkit-fill-available;" height="auto" controls ><video/>`
+                    media?.video
+                        ? `<video src='${media?.video}' style="width: -webkit-fill-available;" height="auto" controls ><video/>`
                         : ""
                 } 
             </div>
@@ -129,17 +125,16 @@ var getposts = () => {
             </div>
         </div>
     `;
-        }
-    );
+    });
 };
 
-const addPost = (e, image, video) => {
+const addPost = (e) => {
     e.preventDefault();
-    
+
     let obj = {
         _id: `${Date.now()}`,
         body: textarea.value,
-        media: { photo: image, video: video },
+        media: { photo: image },
         postedBy: "byme",
         comments: [
             {
@@ -167,14 +162,6 @@ const comment = (id) => {
     id;
 };
 
-// const handelImage = (file, callback) => {
-//     const reader = new FileReader();
-//     reader.readAsDataURL(file.files[0]);
-//     reader.onloadend = () => {
-//         callback(reader.result);
-//     };
-// };
-
 // handelImage(file, (url) => {
 //     let obj = {
 //         _id: `${Date.now()}`,
@@ -188,13 +175,10 @@ const comment = (id) => {
 //     addPost(obj);
 // });
 
-const addImage  = () => (file) =>  {
-    debugger;
-    // let reader = new FileReader();
-    // reader.onloadend = () => {
-    //     let image = reader.result;
-    //     let video = reader.result;
-    //     // addPost(image, video);
-    // };
-    // reader.readAsDataURL(file.target.files[0]);
-};
+function addImage(file) {
+    let reader = new FileReader();
+    reader.onload = () => {
+        image = reader.result;
+    };
+    reader.readAsDataURL(file);
+}
