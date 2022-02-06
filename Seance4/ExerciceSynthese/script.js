@@ -4,7 +4,21 @@ var share = document.getElementById("share");
 var textarea = document.querySelector("textarea");
 var file = document.getElementById("customFile");
 
+let randomImages = ["./medias/christopher-campbell-rDEOVtE7vOs-unsplash.jpg",
+"./medias/huston-wilson-nJHvhXS4C0U-unsplash.jpg",
+"./medias/joseph-gonzalez-iFgRcqHznqg-unsplash.jpg",
+"./medias/warren-wong-VVEwJJRRHgk-unsplash.jpg",
+"./medias/christopher-campbell-rDEOVtE7vOs-unsplash.jpg",
+"./medias/huston-wilson-nJHvhXS4C0U-unsplash.jpg",
+"./medias/warren-wong-VVEwJJRRHgk-unsplash.jpg"
+]
+
+// console.log(randomImages.length)
+
+console.log(Math.floor( Math.random() * randomImages.length ))
+
 var image = null;
+var video = null;
 
 file.addEventListener("change", (event) => addImage(event.target.files[0]));
 
@@ -48,7 +62,8 @@ var postss = [
 
 var getposts = () => {
     add_post.innerHTML = "";
-
+    
+    
     postss.forEach((item) => {
         const { UserPhoto, postedBy, body, media, _id, comments } = item;
 
@@ -62,7 +77,12 @@ var getposts = () => {
                             <img class="rounded-circle" width="45" src=${
                                 UserPhoto
                                     ? UserPhoto
-                                    : "https://picsum.photos/50/50"
+                                    : randomImages[
+                                          Math.floor(
+                                              Math.random * randomImages.length
+                                          )
+                                      ]
+                                // "https://picsum.photos/50/50"
                             } alt="">
                         </div>
                         <div class="ml-2">
@@ -100,7 +120,12 @@ var getposts = () => {
                     <li class="list-group-item">
                     <div class="d-flex">
                     <img class="rounded-circle" width="45" src=${
-                        UserPhoto ? UserPhoto : "https://picsum.photos/50/50"
+                        UserPhoto
+                            ? UserPhoto
+                            : randomImages[
+                                  Math.floor(Math.random * randomImages.length)
+                                ]
+                        // "https://picsum.photos/50/50"
                     } alt="">
                     <p style="margin-left: 13px;">${commenter}</p>
                     </div>
@@ -134,20 +159,9 @@ const addPost = (e) => {
     let obj = {
         _id: `${Date.now()}`,
         body: textarea.value,
-        media: { photo: image },
+        media: { photo: image, video: video },
         postedBy: "byme",
-        comments: [
-            {
-                commenter: "Ahmed",
-                UserPhoto: "https://picsum.photos/50/50",
-                commentaire: "mon commentaire",
-            },
-            {
-                commenter: "Ahmed",
-                UserPhoto: "https://picsum.photos/50/50",
-                commentaire: "mon commentaire",
-            },
-        ],
+        comments: [],
         UserPhoto: "https://picsum.photos/50/50",
     };
 
@@ -157,28 +171,33 @@ const addPost = (e) => {
 
     console.log(postss);
 };
+    
 
-const comment = (id) => {
-    id;
+const comment = (idd) => {
+
+    let inputComment = document.getElementById(`comment_${idd}`);
+    let obj = postss.find((o) => o._id == idd);
+    obj.comments.push({
+        commenter: "Ahmed",
+        UserPhoto: "https://picsum.photos/50/50",
+        commentaire: inputComment.value ,
+    });
+    console.log(obj);
+    console.log(inputComment);
+    getposts()
 };
-
-// handelImage(file, (url) => {
-//     let obj = {
-//         _id: `${Date.now()}`,
-//         body: textarea.value,
-//         media: { photo: url, video: url },
-//         postedBy: "byme",
-//         comments: [],
-//         UserPhoto: "https://picsum.photos/50/50",
-//     };
-
-//     addPost(obj);
-// });
 
 function addImage(file) {
     let reader = new FileReader();
     reader.onload = () => {
-        image = reader.result;
+        if (file.type == "video/mp4") {
+            video = reader.result;
+            image = null;
+        } else {
+            image = reader.result;
+            video = null;
+        }
     };
     reader.readAsDataURL(file);
+    console.log(file.type);
 }
