@@ -1,3 +1,7 @@
+var db = requirejs(["./db"], function (db) {
+    console.log(db);
+});
+
 var add_post = document.getElementById("add_post");
 var message = document.getElementById("message");
 var share = document.getElementById("share");
@@ -5,8 +9,36 @@ var textarea = document.querySelector("textarea");
 var file = document.getElementById("customFile");
 
 var image = null;
+var video = null;
 
-file.addEventListener("change", (event) => addImage(event.target.files[0]));
+db.getCollection("posts").add([
+    { username: "obha", email: "obha@gmail.com" },
+    { username: "mohamed.ch", email: "mohammed.ch@gmail.com" },
+]);
+
+file.addEventListener("change", (event) => {
+    const file = event.target.files[0];
+
+    const mediaType = file.type;
+
+    if (mediaType.includes("video")) {
+        addVideo(file);
+    } else if (mediaType.includes("image")) {
+        addImage(file);
+    }
+});
+
+function addVideo(file) {
+    video = URL.createObjectURL(file);
+}
+
+function addImage(file) {
+    let reader = new FileReader();
+    reader.onload = () => {
+        image = reader.result;
+    };
+    reader.readAsDataURL(file);
+}
 
 var postss = [
     // {
@@ -131,37 +163,25 @@ var getposts = () => {
 const addPost = (e) => {
     e.preventDefault();
 
-    let obj = {
+    const obj = {
         _id: `${Date.now()}`,
         body: textarea.value,
-        media: { photo: image },
-        postedBy: "byme",
-        comments: [
-            {
-                commenter: "Ahmed",
-                UserPhoto: "https://picsum.photos/50/50",
-                commentaire: "mon commentaire",
-            },
-            {
-                commenter: "Ahmed",
-                UserPhoto: "https://picsum.photos/50/50",
-                commentaire: "mon commentaire",
-            },
-        ],
+        media: { photo: image, video },
         UserPhoto: "https://picsum.photos/50/50",
+        postedBy: "byme",
+        comments: [],
     };
 
     postss.push(obj);
 
     getposts();
-
-    console.log(postss);
 };
 
 const comment = (id) => {
     id;
 };
 
+function createComment(postId, comment) {}
 // handelImage(file, (url) => {
 //     let obj = {
 //         _id: `${Date.now()}`,
@@ -174,11 +194,3 @@ const comment = (id) => {
 
 //     addPost(obj);
 // });
-
-function addImage(file) {
-    let reader = new FileReader();
-    reader.onload = () => {
-        image = reader.result;
-    };
-    reader.readAsDataURL(file);
-}
