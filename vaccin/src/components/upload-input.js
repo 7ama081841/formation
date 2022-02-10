@@ -14,10 +14,10 @@ export default function UploadInput({ onChange }) {
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full min-h-[400px]">
       <div
         onClick={() => ref.current?.click()}
-        className="flex justify-center items-center rounded-md bg-gray-100 hover:bg-gray-300"
+        className="w-full h-full flex justify-center items-center rounded-md bg-gray-100 hover:bg-gray-300"
       >
         {img ? (
           <img src={img} className="w-full h-full rounded-md" />

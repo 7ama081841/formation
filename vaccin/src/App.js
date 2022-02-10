@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./App.css";
 import Button from "./components/button";
+import Card from "./components/card";
 import TextInput from "./components/text-input";
 import UploadInput from "./components/upload-input";
 
@@ -34,21 +35,11 @@ function App() {
         </form>
         {/** Non Vaccinated column */}
 
-        <div className="w-2/5 pl-10 space-y-4">
+        <div className="w-2/5 pl-10 ">
           <h1 className="text-white text-3xl font-bold">Non Vaccinated</h1>
-          <div className="overflow-y-auto max-h-screen">
+          <div className="overflow-y-auto space-y-4 max-h-[88vh]">
             {noVaccinatedList.map((item, key) => {
-              return (
-                <div
-                  key={key}
-                  className="flex flex-col bg-white rounded-md rounded-t-md shadow-sm hover:shadow-md"
-                >
-                  <img src={item.img} className="w-full rounded-t-md " />
-                  <span className="px-2 py-4 font-bold text-gray-800">
-                    {item.name}
-                  </span>
-                </div>
-              );
+              return <Card key={key} name={item.name} img={item.img} />;
             })}
           </div>
         </div>
