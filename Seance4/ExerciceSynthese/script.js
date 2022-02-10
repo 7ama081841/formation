@@ -8,6 +8,19 @@ var share = document.getElementById("share");
 var textarea = document.querySelector("textarea");
 var file = document.getElementById("customFile");
 
+let randomImages = ["./medias/christopher-campbell-rDEOVtE7vOs-unsplash.jpg",
+"./medias/huston-wilson-nJHvhXS4C0U-unsplash.jpg",
+"./medias/joseph-gonzalez-iFgRcqHznqg-unsplash.jpg",
+"./medias/warren-wong-VVEwJJRRHgk-unsplash.jpg",
+"./medias/christopher-campbell-rDEOVtE7vOs-unsplash.jpg",
+"./medias/huston-wilson-nJHvhXS4C0U-unsplash.jpg",
+"./medias/warren-wong-VVEwJJRRHgk-unsplash.jpg"
+]
+
+// console.log(randomImages.length)
+
+console.log(Math.floor( Math.random() * randomImages.length ))
+
 var image = null;
 var video = null;
 
@@ -80,7 +93,8 @@ var postss = [
 
 var getposts = () => {
     add_post.innerHTML = "";
-
+    
+    
     postss.forEach((item) => {
         const { UserPhoto, postedBy, body, media, _id, comments } = item;
 
@@ -94,7 +108,12 @@ var getposts = () => {
                             <img class="rounded-circle" width="45" src=${
                                 UserPhoto
                                     ? UserPhoto
-                                    : "https://picsum.photos/50/50"
+                                    : randomImages[
+                                          Math.floor(
+                                              Math.random * randomImages.length
+                                          )
+                                      ]
+                                // "https://picsum.photos/50/50"
                             } alt="">
                         </div>
                         <div class="ml-2">
@@ -132,7 +151,12 @@ var getposts = () => {
                     <li class="list-group-item">
                     <div class="d-flex">
                     <img class="rounded-circle" width="45" src=${
-                        UserPhoto ? UserPhoto : "https://picsum.photos/50/50"
+                        UserPhoto
+                            ? UserPhoto
+                            : randomImages[
+                                  Math.floor(Math.random * randomImages.length)
+                                ]
+                        // "https://picsum.photos/50/50"
                     } alt="">
                     <p style="margin-left: 13px;">${commenter}</p>
                     </div>
@@ -176,10 +200,9 @@ const addPost = (e) => {
 
     getposts();
 };
+    
 
-const comment = (id) => {
-    id;
-};
+const comment = (idd) => {
 
 function createComment(postId, comment) {}
 // handelImage(file, (url) => {
